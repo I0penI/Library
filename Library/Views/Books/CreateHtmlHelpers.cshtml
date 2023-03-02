@@ -1,0 +1,41 @@
+﻿@model BookModel
+
+@{
+    ViewData["Title"] = "Create Book";
+
+}
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false, null, new{@class ="errorred"})
+
+    <!-- Name input -->
+    <div class="form-outline mb-4">
+        
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Name,null, new{@class ="text-danger"})
+    </div>
+
+
+
+    <div class="form-outline mb-4">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new {@class = "form-control", rows = "4"})
+        @Html.ValidationMessageFor(m => m.Description,null, new{@class ="text-danger"})
+    </div>
+
+
+    <div class="form-outline mb4">
+        @Html.LabelFor(m => m.CategoryId)
+        @Html.DropDownListFor(m => m.CategoryId, ViewBag.Categories as SelectList,"--Select--", new { @class = "form-select"})
+        @Html.ValidationMessageFor(m => m.CategoryId, null, new{@class ="text-danger"})
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-dark btn-block mb-4">Save</button>
+}
+@*</form>*@

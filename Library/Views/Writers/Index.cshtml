@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WriterModel>
+@*Model namespace using directive should be added to _ViewImports.cshtml.*@
+
+@{
+    ViewData["Title"] = "Writers";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New Writer <i class="bi bi-person-plus-fill"></i></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameSurnameDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookCountDisplay)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+		@foreach (var item in Model) {
+				<tr>
+					<td>
+                    @Html.DisplayFor(modelItem => item.NameSurnameDisplay)
+					</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCountDisplay)
+                </td>
+
+					<td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-info-circle-fill"></i></a>
+                        @: &nbsp; &nbsp;
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></a>
+                            @: &nbsp; &nbsp;
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash-fill"></a>
+                        }
+                    }
+					</td>
+				</tr>
+		}
+    </tbody>
+</table>
+
+
+

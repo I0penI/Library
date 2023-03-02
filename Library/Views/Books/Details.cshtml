@@ -1,0 +1,71 @@
+﻿@model BookModel
+@*Model namespace using directive should be added to _ViewImports.cshtml.*@
+
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (TempData["Message"] != null)
+{
+    <p class="text-success">@TempData["Message"]</p>
+}
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.StockAmount)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.StockAmount)
+        </dd>
+
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CategoryNameDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CategoryNameDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.WriterNameDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.WriterNameDisplay)
+        </dd>
+
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.ImgSrcDisplay)
+        </dt>
+        <dd class="col-4">
+            @if (Model.ImgSrcDisplay is not null)
+            {
+               <img src="@Model.ImgSrcDisplay" class="img-fluid" />
+            }
+
+
+    </dl>
+</div>
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;
+    <a asp-action="Index">Back to Category List</a>
+</div>
+
+
+

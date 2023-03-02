@@ -1,0 +1,141 @@
+﻿@model IEnumerable<BookModel>
+
+@if (User.IsInRole("Admin"))
+{
+	@Html.ActionLink("Create New Book", "Create", "Books")
+
+}
+
+@{
+	string title = "Books";
+	ViewData["Title"] = title;
+}
+
+<h1>@title</h1>
+<hr />
+
+
+@if (TempData["Message"] is not null){
+    if (TempData["Message"].ToString().EndsWith("!"))
+    {
+        <p class="text-danger">@TempData["Message"]</p>
+    }
+    else
+    {
+        <p class="text-success">@TempData["Message"]</p>
+    }
+}
+<table class="display" style="width:100%" id="datatable">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.WriterNameDisplay)
+			</th>
+			<th>
+			
+				@Html.DisplayNameFor(model => model.Name)
+			</th>		
+			<th>
+			
+				@Html.DisplayNameFor(model => model.CategoryNameDisplay)
+			</th>
+			<th style="width:12%">
+				@Html.DisplayNameFor(model => model.ImgSrcDisplay)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.StockAmount)
+			</th>
+			<th>
+
+			</th>
+
+		</tr>
+	</thead>
+		<tbody>
+	@foreach (var book in Model)
+	{
+			<tr>
+				<td>
+					@Html.DisplayFor(model => book.WriterNameDisplay)
+				</td>
+				<td>
+				
+				@Html.DisplayFor(model => book.Name)
+				</td>
+				
+				<td>
+				
+				@Html.DisplayFor(model => book.CategoryNameDisplay)
+				</td>
+
+				<td>
+                        @if ( book.ImgSrcDisplay is not null)
+                        {
+                        <img src="@book.ImgSrcDisplay" class="img-thumbnail" />
+                        }
+                </td>
+				<td>
+					@Html.DisplayFor(model => book.StockAmount)
+				</td>
+			<td>
+					<a asp-action="Details" asp-route-id="@book.Id"><i class="bi bi-info-circle-fill"></i></a>
+
+				@if (User.IsInRole("User"))
+				{
+					@:&nbsp; &nbsp;
+						<a asp-action="AddToCart" asp-controller="Cart" asp-route-bookId="@book.Id"><i class="bi bi-bag-plus-fill"></i></a>
+				}
+				
+				@if (User.IsInRole("Admin"))
+				{
+					@:&nbsp; |&nbsp;
+
+					<a asp-action="Edit" asp-route-id="@book.Id"><i class="bi bi-pencil-square"></i></a>
+
+						<a asp-action="Delete" asp-route-id="@book.Id"><i class="bi bi-trash-fill"></i></a>
+				}
+				
+			</td>
+			</tr>
+			
+	}
+		</tbody>
+</table>
+@section Scripts{
+	<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+	<script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+
+	<link href="~/lib/alertifyjs/css/alertify.min.css" rel="stylesheet" />
+	<script src="~/lib/alertifyjs/alertify.min.js"></script>
+	<script>
+		
+		$(function () {
+			$('#datatable').DataTable({
+				language: {
+					
+				} 
+			});
+
+		});
+		function delete(id) {
+			alertify.confirm(
+				"Warning!",
+				"Are you sure want to delete this Book?",
+				function () { 
+					window.location.href = "/Books/Delete/" + id;
+				},
+				function () {
+					
+				}
+			).set('labels', { ok: "Yes", cancel: 'No' });
+		}
+	</script>
+	
+	}
+
+
+
+    
+
+
+
